@@ -533,7 +533,31 @@ require('lazy').setup {
       local servers = {
         -- clangd = {},
         -- gopls = {},
-        pyright = {},
+        dockerls = {},
+        docker_compose_language_service = {},
+        pyright = {
+          settings = {
+            pyright = {
+              disableOrganizeImports = true,
+              analysis = {
+                typeCheckingMode = 'strict',
+              },
+            },
+            python = {
+              analysis = {},
+            },
+          },
+        },
+        ruff_lsp = {
+          init_options = {
+            settings = {
+              args = {
+                select = 'ALL',
+              },
+            },
+          },
+        },
+        terraformls = {},
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
@@ -585,6 +609,7 @@ require('lazy').setup {
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format lua code
+        'hadolint', -- Docker
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -629,6 +654,7 @@ require('lazy').setup {
     dependencies = {
       -- Snippet Engine & its associated nvim-cmp source
       {
+        'hrsh7th/cmp-nvim-lua',
         'L3MON4D3/LuaSnip',
         build = (function()
           -- Build Step is needed for regex support in snippets
@@ -708,6 +734,7 @@ require('lazy').setup {
           end, { 'i', 's' }),
         },
         sources = {
+          { name = 'nvim_lua' },
           { name = 'nvim_lsp' },
           { name = 'luasnip' },
           { name = 'path' },
@@ -782,7 +809,7 @@ require('lazy').setup {
 
       ---@diagnostic disable-next-line: missing-fields
       require('nvim-treesitter.configs').setup {
-        ensure_installed = { 'bash', 'c', 'html', 'lua', 'markdown', 'vim', 'vimdoc' },
+        ensure_installed = { 'bash', 'c', 'dockerfile', 'html', 'lua', 'markdown', 'python', 'vim', 'vimdoc' },
         -- Autoinstall languages that are not installed
         auto_install = true,
         highlight = { enable = true },
