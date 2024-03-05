@@ -2,6 +2,8 @@
 
 ## Introduction
 
+Forked for personal use
+
 A starting point for Neovim that is:
 
 * Small
