@@ -280,6 +280,7 @@ require('lazy').setup {
         ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
         ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
         ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
+        ['<leader>f'] = { name = '[F]ormat', _ = 'which_key_ignore' },
       }
     end,
   },
@@ -348,7 +349,13 @@ require('lazy').setup {
         --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
         --   },
         -- },
-        -- pickers = {}
+        pickers = {
+          find_files = {
+            hidden = true,
+            no_ignore = true,
+            no_ignore_parent = true,
+          },
+        },
         extensions = {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
@@ -543,9 +550,6 @@ require('lazy').setup {
                 typeCheckingMode = 'strict',
               },
             },
-            python = {
-              analysis = {},
-            },
           },
         },
         ruff_lsp = {
@@ -594,6 +598,8 @@ require('lazy').setup {
             },
           },
         },
+
+        yamlls = {},
       }
 
       -- Ensure the servers and tools above are installed
@@ -610,6 +616,8 @@ require('lazy').setup {
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format lua code
         'hadolint', -- Docker
+        'ruff',
+        'isort',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -639,13 +647,19 @@ require('lazy').setup {
       formatters_by_ft = {
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
+        python = { 'isort', 'ruff_format' },
         --
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.
         -- javascript = { { "prettierd", "prettier" } },
       },
     },
+  },
+
+  { -- Autopairs
+    'windwp/nvim-autopairs',
+    event = 'InsertEnter',
+    config = true,
   },
 
   { -- Autocompletion
@@ -809,7 +823,18 @@ require('lazy').setup {
 
       ---@diagnostic disable-next-line: missing-fields
       require('nvim-treesitter.configs').setup {
-        ensure_installed = { 'bash', 'c', 'dockerfile', 'html', 'lua', 'markdown', 'python', 'vim', 'vimdoc' },
+        ensure_installed = {
+          'bash',
+          'c',
+          'dockerfile',
+          'html',
+          'lua',
+          'markdown',
+          'python',
+          'vim',
+          'vimdoc',
+          'yaml',
+        },
         -- Autoinstall languages that are not installed
         auto_install = true,
         highlight = { enable = true },
@@ -844,6 +869,13 @@ require('lazy').setup {
   --    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
   -- { import = 'custom.plugins' },
   { 'sitiom/nvim-numbertoggle' },
+  {
+    'wintermute-cell/gitignore.nvim',
+    config = function()
+      local gitignore = require 'gitignore'
+      vim.keymap.set('n', '<leader>gi', gitignore.generate)
+    end,
+  },
 }
 
 -- The line beneath this is called `modeline`. See `:help modeline`
