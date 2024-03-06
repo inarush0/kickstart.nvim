@@ -231,6 +231,24 @@ require('lazy').setup {
   --  This is equivalent to:
   --    require('Comment').setup({})
 
+  {
+    'morhetz/gruvbox',
+    lazy = false,
+    priority = 1000,
+    config = function()
+      vim.cmd.colorscheme 'gruvbox'
+    end,
+  },
+  -- {
+  --   'maxmx03/solarized.nvim',
+  --   lazy = false,
+  --   priority = 1000,
+  --   config = function()
+  --     vim.o.background = 'light'
+  --     vim.cmd.colorscheme 'solarized'
+  --   end,
+  -- },
+
   -- "gc" to comment visual regions/lines
   { 'numToStr/Comment.nvim', opts = {} },
 
@@ -539,7 +557,8 @@ require('lazy').setup {
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         -- clangd = {},
-        -- gopls = {},
+        gopls = {},
+        golangci_lint_ls = {},
         dockerls = {},
         docker_compose_language_service = {},
         pyright = {
@@ -618,6 +637,7 @@ require('lazy').setup {
         'hadolint', -- Docker
         'ruff',
         'isort',
+        'golangci-lint',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -754,24 +774,6 @@ require('lazy').setup {
           { name = 'path' },
         },
       }
-    end,
-  },
-
-  { -- You can easily change to a different colorscheme.
-    -- Change the name of the colorscheme plugin below, and then
-    -- change the command in the config to whatever the name of that colorscheme is
-    --
-    -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`
-    'maxmx03/solarized.nvim',
-    lazy = false, -- make sure we load this during startup if it is your main colorscheme
-    priority = 1000, -- make sure to load this before all the other start plugins
-    config = function()
-      -- Load the colorscheme here
-      vim.o.background = 'light'
-      vim.cmd.colorscheme 'solarized'
-
-      -- You can configure highlights by doing something like
-      --[[ vim.cmd.hi 'Comment gui=none' ]]
     end,
   },
 
