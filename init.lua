@@ -206,6 +206,9 @@ require('lazy').setup {
       { '<c-\\>', '<cmd><C-U>TmuxNavigatePrevious<cr>' },
     },
   },
+  {
+    'RyanMillerC/better-vim-tmux-resizer',
+  },
 
   -- NOTE: Plugins can also be configured to run lua code when they are loaded.
   --
@@ -309,6 +312,7 @@ require('lazy').setup {
             '.git/',
             'node_modules/',
             '.venv/',
+            '.terraform/',
           },
         },
         pickers = {
