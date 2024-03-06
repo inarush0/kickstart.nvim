@@ -304,6 +304,13 @@ require('lazy').setup {
         --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
         --   },
         -- },
+        defaults = {
+          file_ignore_patterns = {
+            '.git/',
+            'node_modules/',
+            '.venv/',
+          },
+        },
         pickers = {
           find_files = {
             hidden = true,
@@ -589,7 +596,6 @@ require('lazy').setup {
         'gopls',
         'hadolint', -- Docker
         'isort',
-        'ripgrep',
         'ruff',
         'stylua', -- Used to format lua code
       })
