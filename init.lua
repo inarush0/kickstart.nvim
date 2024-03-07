@@ -700,6 +700,7 @@ require('lazy').setup {
     dependencies = {
       -- Snippet Engine & its associated nvim-cmp source
       {
+        'hrsh7th/cmp-nvim-lsp-signature-help',
         'hrsh7th/cmp-nvim-lua',
         'L3MON4D3/LuaSnip',
         build = (function()
@@ -780,10 +781,20 @@ require('lazy').setup {
           end, { 'i', 's' }),
         },
         sources = {
-          { name = 'nvim_lua' },
+          { name = 'nvim_lsp_signature_help' },
           { name = 'nvim_lsp' },
+          { name = 'nvim_lua' },
           { name = 'luasnip' },
           { name = 'path' },
+        },
+        sorting = {
+          comparators = {
+            cmp.config.compare.locality,
+            cmp.config.compare.recently_used,
+            cmp.config.compare.score,
+            cmp.config.compare.offset,
+            cmp.config.compare.order,
+          },
         },
       }
     end,
