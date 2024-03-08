@@ -102,6 +102,9 @@ vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left wind
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+vim.keymap.set('n', 'j', 'jzz', { noremap = true })
+vim.keymap.set('n', 'k', 'kzz', { noremap = true })
+vim.keymap.set('n', 'G', 'Gzz', { noremap = true })
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
@@ -802,6 +805,59 @@ require('lazy').setup {
 
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
+
+  {
+    'ThePrimeagen/harpoon',
+    branch = 'harpoon2',
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    config = function()
+      local harpoon = require 'harpoon'
+      harpoon:setup()
+
+      vim.keymap.set('n', '<leader>ha', function()
+        harpoon:list():append()
+      end)
+      vim.keymap.set('n', '<leader>hd', function()
+        harpoon:list():remove()
+      end)
+      vim.keymap.set('n', '<leader>hc', function()
+        harpoon:list():clear()
+      end)
+      vim.keymap.set('n', '<leader>hh', function()
+        harpoon.ui:toggle_quick_menu(harpoon:list())
+      end)
+      vim.keymap.set('n', '<C-S-P>', function()
+        harpoon:list():prev()
+      end)
+      vim.keymap.set('n', '<C-S-N', function()
+        harpoon:list():next()
+      end)
+
+      -- -- telescope configuration
+      -- local conf = require('telescope.config').values
+      -- local function toggle_telescope(harpoon_files)
+      --   local file_paths = {}
+      --   for _, item in ipairs(harpoon_files.items) do
+      --     table.insert(file_paths, item.value)
+      --   end
+      --
+      --   require('telescope.pickers')
+      --     .new({}, {
+      --       prompt_title = 'Harpoon',
+      --       finder = require('telescope.finders').new_table {
+      --         results = file_paths,
+      --       },
+      --       previewer = conf.file_previewer {},
+      --       sorter = conf.generic_sorter {},
+      --     })
+      --     .find()
+      -- end
+      --
+      -- vim.keymap.set('n', '<leader>hh', function()
+      --   toggle_telescope(harpoon:list())
+      -- end, { desc = 'Open harpoon window' })
+    end,
+  },
 
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
