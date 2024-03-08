@@ -102,9 +102,6 @@ vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left wind
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
-vim.keymap.set('n', 'j', 'jzz', { noremap = true })
-vim.keymap.set('n', 'k', 'kzz', { noremap = true })
-vim.keymap.set('n', 'G', 'Gzz', { noremap = true })
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
@@ -278,6 +275,7 @@ require('lazy').setup {
         ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
         ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
         ['<leader>f'] = { name = '[F]ormat', _ = 'which_key_ignore' },
+        ['<leader>h'] = { name = '[H]arpoon', _ = 'which_key_ignore' },
       }
     end,
   },
@@ -826,10 +824,10 @@ require('lazy').setup {
       vim.keymap.set('n', '<leader>hh', function()
         harpoon.ui:toggle_quick_menu(harpoon:list())
       end)
-      vim.keymap.set('n', '<C-S-P>', function()
+      vim.keymap.set('n', '<leader>hp', function()
         harpoon:list():prev()
       end)
-      vim.keymap.set('n', '<C-S-N', function()
+      vim.keymap.set('n', '<leader>hn', function()
         harpoon:list():next()
       end)
 
